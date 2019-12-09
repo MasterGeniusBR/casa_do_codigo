@@ -1,0 +1,23 @@
+{
+  "name": "casa_do_codigo",
+  "version": "1.0.0",
+  "description": "Projeto alura para aprendizado de NodeJS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MasterGeniusBR/casa_do_codigo.git"
+  },
+  "author": "Leonardo V. A. Souza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MasterGeniusBR/casa_do_codigo/issues"
+  },
+  "homepage": "https://github.com/MasterGeniusBR/casa_do_codigo#readme",
+  "dependencies": {
+    "express": "4.16.3"
+  }
+}
