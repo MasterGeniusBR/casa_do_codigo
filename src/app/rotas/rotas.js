@@ -1,3 +1,4 @@
+db = require('../../config/database');
 module.exports = function(aplicacaoWeb)
 {
     aplicacaoWeb.get("/",function(requisicao, resposta)
@@ -7,15 +8,12 @@ module.exports = function(aplicacaoWeb)
 
     aplicacaoWeb.get("/livros",function(requisicao, resposta)
     {
-        resposta.marko(
-            require("../views/livros/lista/lista.marko"),
+        db.all("SELECT * FROM livros", function(erro,resultadosQuery)
+        {
+            resposta.marko(require("../views/livros/lista/lista.marko"),
             {
-                livros:
-                [
-                    {id:111,titulo:"Uma historia muito bela"},
-                    {id:212,titulo:"Luke no pais das maravilhas"}
-                ]
-            }
-        );
+                livros:resultadosQuery
+            });
+        });
     });
 }

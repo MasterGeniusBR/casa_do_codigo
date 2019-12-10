@@ -1,4 +1,4 @@
-<!--<html>
+<html>
     <head>
         <meta charset="utf-8">
     </head>
@@ -16,28 +16,5 @@
             </tr>
         </table> 
     </body> 
-</html>-->
-<!-- home.marko -->
+</html>
 
-<include('./layout.marko')>
-   <@cabecalho>
-       <h1>Casa do Código - Home</h1>
-   </@cabecalho>
-</include>
-
-$ var livrosPromise = new Promise((resolve, reject) => {
-   setTimeout(function() {
-       resolve([
-           {
-               titulo: 'Cangaceiro Node'
-           },
-           {
-               titulo: 'Node na prática'
-           }
-       ]);
-   }, 1000);
-});
-
-<await(livros from livrosPromise)>
-   <div for (livro in livros)>Título: ${livro.titulo}</div>
-</await>

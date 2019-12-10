@@ -6,57 +6,42 @@ var marko_template = module.exports = require("marko/src/html").t(__filename),
     components_helpers = require("marko/src/components/helpers"),
     marko_renderer = components_helpers.r,
     marko_defineComponent = components_helpers.c,
-    marko_loadTemplate = require("marko/src/runtime/helper-loadTemplate"),
-    layout_template = marko_loadTemplate(require.resolve("./layout.marko")),
-    hasRenderBodyKey = Symbol.for("hasRenderBody"),
     marko_helpers = require("marko/src/runtime/html/helpers"),
     marko_loadTag = marko_helpers.t,
-    include_tag = marko_loadTag(require("marko/src/taglibs/core/include-tag")),
+    component_globals_tag = marko_loadTag(require("marko/src/components/taglib/component-globals-tag")),
     marko_forEach = marko_helpers.f,
     marko_escapeXml = marko_helpers.x,
-    await_tag = marko_loadTag(require("marko/src/taglibs/async/await-tag"));
+    init_components_tag = marko_loadTag(require("marko/src/components/taglib/init-components-tag")),
+    await_reorderer_tag = marko_loadTag(require("marko/src/taglibs/async/await-reorderer-tag"));
 
 function render(input, out, __component, component, state) {
   var data = input;
 
-  include_tag({
-      _target: layout_template,
-      cabecalho: {
-          renderBody: function renderBody(out) {
-            out.w("<h1>Casa do Código - Home</h1>");
-          }
-        },
-      [hasRenderBodyKey]: true
-    }, out, __component, "0");
+  out.w("<html><head><meta charset=\"utf-8\"></head><body>");
 
-  var livrosPromise = new Promise((resolve, reject) => {
-     setTimeout(function() {
-         resolve([
-             {
-                 titulo: 'Cangaceiro Node'
-             },
-             {
-                 titulo: 'Node na prática'
-             }
-         ]);
-     }, 1000);
+  component_globals_tag({}, out);
+
+  out.w("<h1> Listagem de livros </h1><table><tr><td>ID</td><td>Título</td></tr>");
+
+  var for__9 = 0;
+
+  marko_forEach(data.livros, function(livro) {
+    var keyscope__10 = "[" + ((for__9++) + "]");
+
+    out.w("<tr><td>" +
+      marko_escapeXml(livro.id) +
+      "</td><td>" +
+      marko_escapeXml(livro.titulo) +
+      "</td></tr>");
   });
 
-  await_tag({
-      _dataProvider: livrosPromise,
-      _name: "livrosPromise",
-      renderBody: function renderBody(out, livros) {
-        var for__4 = 0;
+  out.w("</table> ");
 
-        marko_forEach(livros, function(livro) {
-          var keyscope__5 = "[" + ((for__4++) + "]");
+  init_components_tag({}, out);
 
-          out.w("<div>Título: " +
-            marko_escapeXml(livro.titulo) +
-            "</div>");
-        });
-      }
-    }, out, __component, "3");
+  await_reorderer_tag({}, out, __component, "14");
+
+  out.w("</body> </html>");
 }
 
 marko_template._ = marko_renderer(render, {
@@ -69,8 +54,8 @@ marko_template.Component = marko_defineComponent({}, marko_template._);
 marko_template.meta = {
     id: "/casa_do_codigo$1.0.0/src/app/views/livros/lista/lista.marko",
     tags: [
-      "./layout.marko",
-      "marko/src/taglibs/core/include-tag",
-      "marko/src/taglibs/async/await-tag"
+      "marko/src/components/taglib/component-globals-tag",
+      "marko/src/components/taglib/init-components-tag",
+      "marko/src/taglibs/async/await-reorderer-tag"
     ]
   };
