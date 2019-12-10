@@ -20,4 +20,18 @@ module.exports = function(aplicacaoWeb)
                 })
                 .catch(erro => console.log(erro));
     });
+
+    aplicacaoWeb.get("/livros/form",function(requisicao, resposta)
+    {                    
+        resposta.marko(require("../views/livros/formulario/form.marko"));
+    });
+
+    aplicacaoWeb.post("/livros",function(requisicao, resposta)
+    {                    
+        let livroDAO = new LivroDAO(db);
+        livroDAO.adiciona(requisicao.body)
+                .then(() => resposta.redirect("/livros"))
+                .catch(erro => console.log(erro));
+    });
+
 }
