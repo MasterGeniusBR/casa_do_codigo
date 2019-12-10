@@ -10,12 +10,14 @@ module.exports = function(aplicacaoWeb)
     aplicacaoWeb.get("/livros",function(requisicao, resposta)
     {
         let livroDAO = new LivroDAO(db);
-        livroDAO.lista(function(erro,resultadosQuery)
-        {
-            resposta.marko(require("../views/livros/lista/lista.marko"),
-            {
-                livros:resultadosQuery
-            });
-        });
+        livroDAO.lista()
+                .then((resultadosQuery)=>
+                {
+                    resposta.marko(require("../views/livros/lista/lista.marko"),
+                    {
+                        livros:resultadosQuery
+                    });
+                })
+                .catch(erro => console.log(erro));
     });
 }

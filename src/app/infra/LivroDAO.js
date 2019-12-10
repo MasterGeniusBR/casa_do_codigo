@@ -5,9 +5,22 @@ class LivroDAO
         this._database = database;
     }
 
-    lista(callback)
+    lista()
     {
-        this._database.all("SELECT * FROM livros", (erro, resposta) => callback(erro,resposta));
+        return new Promise((resolve, reject) =>
+        {
+            this._database.all("SELECT * FROM livros", (erro, resposta) => 
+            {
+                if(erro)
+                {
+                    return reject(erro);
+                }
+                else
+                {
+                    return resolve(resposta);
+                }
+            });
+        });
     }
 }
 module.exports = LivroDAO;
