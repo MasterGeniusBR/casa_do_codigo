@@ -7,6 +7,15 @@ module.exports = function(aplicacaoWeb)
 
     aplicacaoWeb.get("/livros",function(requisicao, resposta)
     {
-        resposta.send(`<h2>E aew brow, area dos livros aqui!!<h2>`);
+        resposta.marko(
+            require("../views/livros/lista/lista.marko"),
+            {
+                livros:
+                [
+                    {id:111,titulo:"Uma historia muito bela"},
+                    {id:212,titulo:"Luke no pais das maravilhas"}
+                ]
+            }
+        );
     });
 }
